@@ -3,9 +3,9 @@ const WinToaster = require('node-notifier').WindowsToaster;
 
 class Timer {
   constructor(options) {
-      this.workTime = options.workTime;
-      this.relaxTime = options.relaxTime;
-      this.messageInterval = options.messageInterval;
+      this.workTime = options.workTime * 60000;
+      this.relaxTime = options.relaxTime * 60000;
+      this.messageInterval = options.messageInterval * 60000;
       this.time = 0;
       this.progressMess = '';
       this.finalMess = 'Время работы закончилось.';
@@ -73,8 +73,8 @@ class Timer {
 }
 
 let newTimer = new Timer({
-    workTime: 25000,
-    relaxTime: 5000,
-    messageInterval: 1000
+    workTime: 25,
+    relaxTime: 5,
+    messageInterval: 1
 });
 
