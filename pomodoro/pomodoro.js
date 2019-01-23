@@ -2,10 +2,13 @@ const Pluralize = require('./pluralize');
 const WinToaster = require('node-notifier').WindowsToaster;
 
 class Timer {
-  constructor(options) {
-      this.workTime = options.workTime * 60000;
-      this.relaxTime = options.relaxTime * 60000;
-      this.messageInterval = options.messageInterval * 60000;
+    static get timeCoeff() {
+        return 60000;
+    }
+    constructor(options) {
+      this.workTime = options.workTime * Timer.timeCoeff;
+      this.relaxTime = options.relaxTime * Timer.timeCoeff;
+      this.messageInterval = options.messageInterval * Timer.timeCoeff;
       this.time = 0;
       this.progressMess = '';
       this.finalMess = 'Время работы закончилось.';
@@ -16,7 +19,7 @@ class Timer {
       // запуск таймера заново каждые (время_работы + время_отдыха) мс
       this.timerStart();
       let options = {
-          title: 'Работа ' + (this.workTime * 0.001) + ' минут' + Pluralize(this.workTime, ['а', 'ы', '']) + '.',
+          title: 'Работа ' + (this.workTime / Timer.timeCoeff) + ' минут' + Pluralize(this.workTime, ['а', 'ы', '']) + '.',
           message: 'Одно дело за раз!',
           icon: 'icons/icon_work.png'
       };
@@ -25,7 +28,6 @@ class Timer {
   }
 
   timerStart(){
-      const date = new Date();
       console.log('Работа началась в ' + Timer.getCurrentTime() + '.');
       //вывод сообщений о прошедшем времени каждые this.messageInterval мс
       this.timerId = setInterval(this.timerTick.bind(this), this.messageInterval);
@@ -40,14 +42,14 @@ class Timer {
 
   timerTick(){
       this.time++;
-      this.progressMess = 'Прошло ' + this.time + ' минут' + Pluralize(this.time, ['а', 'ы', '']) + '.';
+      this.progressMess = 'Прошл' + Pluralize(this.time, ['а', 'о', 'о']) + ' ' + this.time + ' минут' + Pluralize(this.time, ['а', 'ы', '']) + '.';
       console.log(this.progressMess);
   }
 
   renderFinal(){
       console.log(this.finalMess);
       let options = {
-          title: 'Перерыв ' + (this.relaxTime * 0.001) + ' минут' + Pluralize(this.relaxTime, ['а', 'ы', '']) + '.',
+          title: 'Перерыв ' + (this.relaxTime / Timer.timeCoeff) + ' минут' + Pluralize(this.relaxTime, ['а', 'ы', '']) + '.',
           message: 'Встать со стула, размяться!',
           icon: 'icons/icon_rest.png'
       };
@@ -77,4 +79,3 @@ let newTimer = new Timer({
     relaxTime: 5,
     messageInterval: 1
 });
-
