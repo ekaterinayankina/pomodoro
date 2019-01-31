@@ -10,8 +10,8 @@ class Timer {
       this.relaxTime = options.relaxTime * Timer.timeCoeff;
       this.messageInterval = options.messageInterval * Timer.timeCoeff;
       this.time = 0;
-      this.progressMess = '';
-      this.finalMess = 'Время работы закончилось.';
+      this.progressMessage = '';
+      this.finalMessage = 'Время работы закончилось.';
       this.initEvents();
   }
 
@@ -42,12 +42,12 @@ class Timer {
 
   timerTick(){
       this.time++;
-      this.progressMess = 'Прошл' + Pluralize(this.time, ['а', 'о', 'о']) + ' ' + this.time + ' минут' + Pluralize(this.time, ['а', 'ы', '']) + '.';
-      console.log(this.progressMess);
+      this.progressMessage = 'Прошл' + Pluralize(this.time, ['а', 'о', 'о']) + ' ' + this.time + ' минут' + Pluralize(this.time, ['а', 'ы', '']) + '.';
+      console.log(this.progressMessage);
   }
 
   renderFinal(){
-      console.log(this.finalMess);
+      console.log(this.finalMessage);
       let options = {
           title: 'Перерыв ' + (this.relaxTime / Timer.timeCoeff) + ' минут' + Pluralize(this.relaxTime, ['а', 'ы', '']) + '.',
           message: 'Встать со стула, размяться!',
